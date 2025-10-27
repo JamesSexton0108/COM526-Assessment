@@ -30,12 +30,11 @@ class Environment:
     def load_assets(self, world_map:list):
         for i in range(len(world_map)):
             for j in range(len(world_map[i])):
-                if world_map[i][j] == 's':
-                    world_map[i][j] = utils.ChargingStation((j, i))
-                elif world_map[i][j] == 'r':
-                    world_map[i][j] = utils.Robot((j, i))
-                elif world_map[i][j] == '*':
-                    world_map[i][j] = utils.Dirt()
+
+                if world_map[i][j] == 'u' or world_map[i][j] == 'd' or world_map[i][j] == 'l' or world_map[i][j] == 'r':
+                    world_map[i][j] = utils.ChargingStation((j, i), world_map[i][j])
+                elif world_map[i][j] == '^' or world_map[i][j] == 'v' or world_map[i][j] == '<' or world_map[i][j] == '>':
+                    world_map[i][j] = utils.Robot((j, i), world_map[i][j])
         return world_map
 
     def get_cells(self, positions:list) -> dict[tuple[int,int],...]:
@@ -62,22 +61,6 @@ class Environment:
             out += "\n"
         return out
 
-
-if __name__ == "__main__":
-    e = Environment("map.txt")
-
-    water = e.world[1][5]
-    robot1 = e.world[5][5]
-    #robot1 = e.world[2][5]
-
-    for i in range(500):  # Change 1 simulate more moves. I.e. 100 would simulate 100 moves
-        # Call the act method for each agent operating in the environment
-        print(e)
-        water.act(e)
-        robot1.act(e)
-
-        print(robot1.known_map)
-        print(robot1.water_level)
 
 
 

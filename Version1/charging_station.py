@@ -3,25 +3,25 @@ import utils
 
 class ChargingStation(Agent):
 
-    def __init__(self, position):
-        super().__init__(position)
+    def __init__(self, position, facing):
+        super().__init__(position, facing)
 
-    def decide(self, percept):
-        for k,v in percept.items():
-            if utils.is_robot(v):
-                return "refill",k,v
-        return "wait",None,None
+    def decide(self, environment):
+        front_obj, front_loc = self.sense_front(environment)
+        if utils.is_robot(front_obj):
+            return "charge", front_obj, front_loc
+        return "wait", None, None
+
+
 
 
     def act(self, environment):
-        cell = self.sense(environment)
-        decision,cell,item = self.decide(cell)
+        decision, item, cell = self.decide(environment)
 
-        if decision == "refill":
-            item.refill()
+        if decision == "charge":
+            item.charge()
         else:
             pass
 
-
     def __str__(self):
-        return '💧'
+        return self.facing

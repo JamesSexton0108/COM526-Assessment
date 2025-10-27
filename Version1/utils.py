@@ -1,6 +1,5 @@
 from charging_station import ChargingStation
 from robot import Robot
-from dirt import Dirt
 
 
 def is_robot(object):
@@ -14,8 +13,3 @@ def is_charging_station(object):
         return True
     return False
 
-
-def is_dirt(object):
-    if isinstance(object, Dirt):
-        return True
-    return False
